@@ -2069,18 +2069,15 @@ Q2 <!DOCTYPE html>
 
 </body>
 </html>
-
-
     </textarea>
-    
     <button id="btn-program15" onclick="copyProgram('program15', 'btn-program15')">slip15</button>
 </div>    
 
 
+        
 <div class="program-section">
     <h2 class="program-title"></h2>
-  
-<textarea id="program16" class="program-code" style="display:none;">
+<textarea id="program16" class="program-code">
 Q1 recipe.json
         [
     {
@@ -2131,11 +2128,11 @@ const server = http.createServer((req, res) => {
             <form method="POST">
                 <input type="text" name="name" placeholder="Recipe Name"><br><br>
                 <input type="text" name="ingredients" placeholder="Ingredients"><br><br>
-                <textarea name="steps" placeholder="Steps"></textarea><br><br>
+                &lt;textarea name="steps" placeholder="Steps"&gt;&lt;/textarea&gt;<br><br>
                 <button type="submit">Add Recipe</button>
             </form>
         `);
-        res.end();
+    res.end();
     }
     // Handle form submission
     else if (req.method === "POST") {
