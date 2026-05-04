@@ -2395,7 +2395,98 @@ Q2
     <h2 class="program-title"></h2>
     
     <textarea id="program18" class="program-code">
+Q1 
+        const http = require("http");
+const querystring = require("querystring");
 
+// Sample user (for demo)
+const USER = {
+    username: "admin",
+    password: "123456"
+};
+
+const server = http.createServer((req, res) => {
+
+    // Show Login Form
+    if (req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "text/html" });
+
+        res.write(`
+            <h2>User Login</h2>
+            <form method="POST">
+                Username:<br>
+                <input type="text" name="username"><br><br>
+
+                Password:<br>
+                <input type="password" name="password"><br><br>
+
+                <button type="submit">Login</button>
+            </form>
+        `);
+
+        res.end();
+    }
+
+    // Handle Login
+    else if (req.method === "POST") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const data = querystring.parse(body);
+
+            const username = data.username;
+            const password = data.password;
+
+            res.writeHead(200, { "Content-Type": "text/html" });
+
+            if (username === USER.username && password === USER.password) {
+                res.write("<h2>Login Successful ✅</h2>");
+            } else {
+                res.write("<h2>Invalid Username or Password ❌</h2>");
+            }
+
+            res.end();
+        });
+    }
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 
+   const mysql = require("mysql");
+
+// Create connection
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",        // your MySQL password
+    database: "your_db"  // replace with your database name
+});
+
+// Connect to MySQL
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // SQL Query (name starts with 'A')
+    const sql = "SELECT * FROM customers WHERE name LIKE 'A%'";
+
+    con.query(sql, function(err, result) {
+        if (err) throw err;
+
+        console.log("Customers whose name starts with 'A':");
+        console.log(result);
+
+        con.end();
+    });
+});
+     
     </textarea>
     
     <button id="btn-program18" onclick="copyProgram('program18', 'btn-program18')">slip18</button>
@@ -2407,7 +2498,140 @@ Q2
     <h2 class="program-title"></h2>
     
     <textarea id="program19" class="program-code">
+Q1 
+    // uppercase.js
 
+const input = "Hello World!";
+
+// Convert to uppercase
+const output = input.toUpperCase();
+
+// Display result
+console.log("Original String:", input);
+console.log("Uppercase String:", output);
+Q2 
+   <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Student Details Validation SPA</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+
+<body ng-controller="myController">
+
+<div class="container">
+    <h2>Student Details Form</h2>
+
+    <label>Name:</label>
+    <input type="text" ng-model="name">
+
+    <label>Address:</label>
+    <textarea ng-model="address"></textarea>
+
+    <label>Mobile Number:</label>
+    <input type="text" ng-model="mobile">
+
+    <label>Pin Code:</label>
+    <input type="text" ng-model="pincode">
+
+    <label>Email:</label>
+    <input type="text" ng-model="email">
+
+    <button ng-click="validate()">Submit</button>
+
+    <p class="error" ng-bind-html="errorMsg"></p>
+    <p class="success">{{successMsg}}</p>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+
+    app.controller("myController", function($scope, $sce) {
+
+        $scope.validate = function() {
+
+            let error = "";
+
+            // Regex patterns
+            let namePattern = /^[A-Za-z ]+$/;
+            let mobilePattern = /^[0-9]{10}$/;
+            let pinPattern = /^[0-9]{6}$/;
+            let emailPattern = /^[^ ]+@[^ ]+\.[^ ]+$/;
+
+            // Name validation
+            if (!$scope.name || !namePattern.test($scope.name)) {
+                error += "Name should contain only alphabets<br>";
+            }
+
+            // Address validation (must contain given text)
+            if (!$scope.address || !$scope.address.includes("SPPU M.Sc. Computer Science Syllabus 2023-24")) {
+                error += "Address must contain 'SPPU M.Sc. Computer Science Syllabus 2023-24'<br>";
+            }
+
+            // Mobile validation
+            if (!$scope.mobile || !mobilePattern.test($scope.mobile)) {
+                error += "Mobile number must be 10 digits<br>";
+            }
+
+            // Pin code validation
+            if (!$scope.pincode || !pinPattern.test($scope.pincode)) {
+                error += "Pin code must be 6 digits<br>";
+            }
+
+            // Email validation
+            if (!$scope.email || !emailPattern.test($scope.email)) {
+                error += "Enter valid email (one @ and .)<br>";
+            }
+
+            if (error !== "") {
+                $scope.errorMsg = $sce.trustAsHtml(error);
+                $scope.successMsg = "";
+            } else {
+                $scope.errorMsg = "";
+                $scope.successMsg = "All inputs are valid ✅";
+            }
+        };
+
+    });
+</script>
+
+</body>
+</html>
+     
     </textarea>
     
     <button id="btn-program19" onclick="copyProgram('program19', 'btn-program19')">slip19</button>
@@ -2417,7 +2641,7 @@ Q2
     <h2 class="program-title"></h2>
     
     <textarea id="program20" class="program-code">
-
+Q1 
     </textarea>
     
     <button id="btn-program20" onclick="copyProgram('program20', 'btn-program20')">slip20</button>
