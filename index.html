@@ -902,7 +902,80 @@ Q2
         <h2 class="program-title"></h2>
         
         <textarea id="program6" class="program-code">
-Q1       
+Q1  <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>ng-click Example</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="myController">
+
+    <h2>ng-click Demo</h2>
+
+    <!-- Button with ng-click -->
+    <button ng-click="showAlert()">Click Me</button>
+
+    <script>
+        var app = angular.module("myApp", []);
+
+        app.controller("myController", function($scope) {
+
+            // Function triggered on click
+            $scope.showAlert = function() {
+                alert("Button Clicked! 🎉");
+            };
+
+        });
+    </script>
+
+</body>
+</html>
+Q2 
+   const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
+const server = http.createServer((req, res) => {
+
+    // Get requested file path
+    let filePath = "." + req.url;
+
+    // Default file
+    if (filePath === "./") {
+        filePath = "./index.html";
+    }
+
+    // Get file extension
+    const extname = path.extname(filePath);
+
+    // Set content type
+    let contentType = "text/html";
+    if (extname === ".css") contentType = "text/css";
+    if (extname === ".js") contentType = "text/javascript";
+    if (extname === ".json") contentType = "application/json";
+
+    // Read file
+    fs.readFile(filePath, (err, content) => {
+        if (err) {
+            // 404 Error
+            res.writeHead(404, { "Content-Type": "text/html" });
+            res.end("<h2>404 - File Not Found ❌</h2>");
+        } else {
+            // Success
+            res.writeHead(200, { "Content-Type": contentType });
+            res.end(content);
+        }
+    });
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+         
         </textarea>
         
         <button id="btn-program6" onclick="copyProgram('program6', 'btn-program6')">slip6</button>
@@ -916,7 +989,101 @@ Q1
         <textarea id="program7" class="program-code">
   
         </textarea>
-        
+Q1 
+        <!DOCTYPE html>
+<html ng-app="timeApp">
+<head>
+    <title>Current Date & Time</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #f2f2f2;
+        }
+        .box {
+            display: inline-block;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h2 {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body ng-controller="timeController">
+
+<div class="box">
+    <h2>Current Date & Time</h2>
+    <h3>{{currentTime | date:'fullDate'}}</h3>
+    <h3>{{currentTime | date:'mediumTime'}}</h3>
+</div>
+
+<script>
+    var app = angular.module("timeApp", []);
+
+    app.controller("timeController", function($scope, $interval) {
+
+        // Initialize current time
+        $scope.currentTime = new Date();
+
+        // Update every 1 second
+        $interval(function() {
+            $scope.currentTime = new Date();
+        }, 1000);
+
+    });
+</script>
+
+</body>
+</html>
+Q2 
+   // Import events module
+const EventEmitter = require("events");
+
+// Create an event emitter object
+const eventEmitter = new EventEmitter();
+
+// Callback functions
+const loginHandler = () => {
+    console.log("User logged in successfully!");
+};
+
+const logoutHandler = () => {
+    console.log("User logged out!");
+};
+
+const errorHandler = () => {
+    console.log("An error occurred!");
+};
+
+// Register events with callbacks
+eventEmitter.on("login", loginHandler);
+eventEmitter.on("logout", logoutHandler);
+eventEmitter.on("error", errorHandler);
+
+// Main loop (simulated event listener)
+console.log("Event-driven application started...");
+
+setInterval(() => {
+    // Simulate random events
+    const events = ["login", "logout", "error"];
+    const randomEvent = events[Math.floor(Math.random() * events.length)];
+
+    console.log(`Event detected: ${randomEvent}`);
+
+    // Emit event → triggers callback
+    eventEmitter.emit(randomEvent);
+
+}, 3000); // runs every 3 seconds
+     
         <button id="btn-program7" onclick="copyProgram('program7', 'btn-program7')">slip7</button>
     </div>    
     
@@ -925,7 +1092,105 @@ Q1
         <h2 class="program-title"></h2>
         
         <textarea id="program8" class="program-code">
- 
+Q1 // server.js
+
+const http = require("http");
+
+// Create server
+const server = http.createServer((req, res) => {
+
+    // Set response header
+    res.writeHead(200, { "Content-Type": "text/html" });
+
+    // Send response
+    res.write("<h1>Welcome to Simple Node.js Web Server</h1>");
+    res.write("<p>This is a basic server response.</p>");
+
+    res.end();
+});
+
+// Start server
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 
+     <!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <title>Student Details</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        table {
+            width: 80%;
+            margin: 50px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid gray;
+            text-align: center;
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body ng-controller="studentController">
+
+<h2 style="text-align:center;">Student Details</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Course</th>
+    </tr>
+
+    <!-- ng-repeat -->
+    <tr ng-repeat="s in students">
+        <td>{{s.id}}</td>
+        <td>{{s.name}}</td>
+        <td>{{s.age}}</td>
+        <td>{{s.course}}</td>
+    </tr>
+</table>
+
+<script>
+    var app = angular.module("studentApp", []);
+
+    app.controller("studentController", function($scope) {
+
+        // Array of 10 students
+        $scope.students = [
+            {id: 1, name: "Rahul", age: 20, course: "BCA"},
+            {id: 2, name: "Sneha", age: 21, course: "BBA"},
+            {id: 3, name: "Amit", age: 22, course: "BSc"},
+            {id: 4, name: "Priya", age: 19, course: "BCom"},
+            {id: 5, name: "Karan", age: 23, course: "BCA"},
+            {id: 6, name: "Neha", age: 20, course: "BA"},
+            {id: 7, name: "Rohit", age: 21, course: "BTech"},
+            {id: 8, name: "Pooja", age: 22, course: "MBA"},
+            {id: 9, name: "Vikas", age: 24, course: "MCA"},
+            {id: 10, name: "Anjali", age: 20, course: "BSc"}
+        ];
+
+    });
+</script>
+
+</body>
+</html>
+       
 </textarea>
         
         <button id="btn-program8" onclick="copyProgram('program8', 'btn-program8')">slip8</button>
@@ -937,7 +1202,113 @@ Q1
         <h2 class="program-title"></h2>
         
         <textarea id="program9" class="program-code">
+Q1 const http = require("http");
+const querystring = require("querystring");
 
+const server = http.createServer((req, res) => {
+
+    // Show HTML form
+    if (req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "text/html" });
+
+        res.write(`
+            <html>
+            <head><title>Concatenate Strings</title></head>
+            <body>
+                <h2>Concatenate Two Strings</h2>
+                
+                <form method="POST">
+                    Enter First String:<br>
+                    <input type="text" name="str1"><br><br>
+
+                    Enter Second String:<br>
+                    <input type="text" name="str2"><br><br>
+
+                    <button type="submit">Concatenate</button>
+                </form>
+            </body>
+            </html>
+        `);
+
+        res.end();
+    }
+
+    // Handle form submission
+    else if (req.method === "POST") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const data = querystring.parse(body);
+
+            const str1 = data.str1;
+            const str2 = data.str2;
+
+            const result = str1 + str2;
+
+            res.writeHead(200, { "Content-Type": "text/html" });
+
+            res.write(`
+                <h2>Result</h2>
+                <p>Concatenated String: <b>${result}</b></p>
+                <a href="/">Go Back</a>
+            `);
+
+            res.end();
+        });
+    }
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 
+   const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
+const server = http.createServer((req, res) => {
+
+    // Get requested file path
+    let filePath = "." + req.url;
+
+    // Default file
+    if (filePath === "./") {
+        filePath = "./index.html";
+    }
+
+    // Get file extension
+    const extname = path.extname(filePath);
+
+    // Set content type
+    let contentType = "text/html";
+    if (extname === ".css") contentType = "text/css";
+    if (extname === ".js") contentType = "text/javascript";
+    if (extname === ".json") contentType = "application/json";
+
+    // Read file
+    fs.readFile(filePath, (err, content) => {
+        if (err) {
+            // 404 Error
+            res.writeHead(404, { "Content-Type": "text/html" });
+            res.end("<h2>404 - File Not Found ❌</h2>");
+        } else {
+            // Success
+            res.writeHead(200, { "Content-Type": contentType });
+            res.end(content);
+        }
+    });
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+         
 </textarea>
         
         <button id="btn-program9" onclick="copyProgram('program9', 'btn-program9')">slip9</button>
@@ -948,7 +1319,59 @@ Q1
         <h2 class="program-title"></h2>
         
         <textarea id="program10" class="program-code">
-   
+Q1 clg.js
+            const mysql = require("mysql");
+
+// Create connection
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "" // your MySQL password
+});
+
+// Connect to MySQL
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // Create Database
+    con.query("CREATE DATABASE IF NOT EXISTS college", function(err, result) {
+        if (err) throw err;
+        console.log("Database 'college' created or already exists");
+
+        // Select Database
+        const con2 = mysql.createConnection({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "college"
+        });
+
+        con2.connect(function(err) {
+            if (err) throw err;
+
+            // Create Table
+            const sql = `
+                CREATE TABLE IF NOT EXISTS Student (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(50),
+                    age INT,
+                    course VARCHAR(50)
+                )
+            `;
+
+            con2.query(sql, function(err, result) {
+                if (err) throw err;
+                console.log("Table 'Student' created successfully");
+
+                con2.end();
+            });
+        });
+    });
+
+    con.end();
+});
+
         </textarea>
         
         <button id="btn-program10" onclick="copyProgram('program10', 'btn-program10')">slip10</button>
