@@ -988,8 +988,8 @@ server.listen(3000, () => {
         
         <textarea id="program7" class="program-code">
   
-        </textarea>
-Q1 
+        
+Q1
         <!DOCTYPE html>
 <html ng-app="timeApp">
 <head>
@@ -1083,7 +1083,7 @@ setInterval(() => {
     eventEmitter.emit(randomEvent);
 
 }, 3000); // runs every 3 seconds
-     
+</textarea>     
         <button id="btn-program7" onclick="copyProgram('program7', 'btn-program7')">slip7</button>
     </div>    
     
@@ -1320,7 +1320,7 @@ server.listen(3000, () => {
         
         <textarea id="program10" class="program-code">
 Q1 clg.js
-            const mysql = require("mysql");
+const mysql = require("mysql");
 
 // Create connection
 const con = mysql.createConnection({
@@ -1371,6 +1371,36 @@ con.connect(function(err) {
 
     con.end();
 });
+Q2 module.js
+            // modules.js
+
+// Function to return current date and time
+exports.myDateTime = function () {
+    return new Date();
+};
+Q2 app.js
+            // app.js
+
+// Import built-in http module
+const http = require("http");
+
+// Import custom module
+const myModule = require("./modules");
+
+// Create server
+http.createServer(function (req, res) {
+
+    res.writeHead(200, { "Content-Type": "text/html" });
+
+    // Use function from custom module
+    res.write("<h2>Current Date and Time:</h2>");
+    res.write("<p>" + myModule.myDateTime() + "</p>");
+
+    res.end();
+
+}).listen(3000);
+
+console.log("Server running at http://localhost:3000");
 
         </textarea>
         
@@ -1382,6 +1412,102 @@ con.connect(function(err) {
         <h2 class="program-title"></h2>
         
         <textarea id="program11" class="program-code">
+Q1 const mysql = require("mysql");
+
+// Step 1: Create connection (without database)
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "" // your MySQL password
+});
+
+// Connect to MySQL
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // Step 2: Create Database
+    con.query("CREATE DATABASE IF NOT EXISTS MovieDB", function(err, result) {
+        if (err) throw err;
+        console.log("Database 'MovieDB' created or already exists");
+
+        // Step 3: Connect to MovieDB
+        const dbCon = mysql.createConnection({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "MovieDB"
+        });
+
+        dbCon.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected to MovieDB");
+
+            // Step 4: Create Table
+            const sql = `
+                CREATE TABLE IF NOT EXISTS Movies (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    title VARCHAR(100),
+                    genre VARCHAR(50),
+                    release_year INT,
+                    rating FLOAT
+                )
+            `;
+
+            dbCon.query(sql, function(err, result) {
+                if (err) throw err;
+                console.log("Table 'Movies' created successfully");
+
+                dbCon.end();
+            });
+        });
+    });
+
+    con.end();
+});
+Q1 createtable
+            CREATE TABLE Movies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    genre VARCHAR(50),
+    release_year INT,
+    rating FLOAT
+);
+Q2 const express = require("express");
+const path = require("path");
+
+const app = express();
+const PORT = 3000;
+
+// Route to download file
+app.get("/download", (req, res) => {
+
+    // File path
+    const filePath = path.join(__dirname, "sample.txt");
+
+    // Send file as attachment
+    res.download(filePath, "myfile.txt", (err) => {
+        if (err) {
+            console.log("Error:", err);
+            res.send("Error downloading file");
+        }
+    });
+});
+
+// Home route
+app.get("/", (req, res) => {
+    res.send(`
+        <h2>File Download Example</h2>
+        <a href="/download">Download File</a>
+    `);
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 sample.txt
+            This is a sample file for download.
 
      </textarea>
         
@@ -1393,7 +1519,34 @@ con.connect(function(err) {
         <h2 class="program-title"></h2>
         
         <textarea id="program12" class="program-code">
-  
+  Q1 
+            const mysql = require("mysql");
+// Create connection
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",        // your MySQL password
+    database: "your_db"  // replace with your database name
+});
+
+// Connect to MySQL
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // SQL Query to select all records
+    const sql = "SELECT * FROM customers";
+
+    con.query(sql, function(err, result) {
+        if (err) throw err;
+
+        console.log("Customers Table Data:");
+        console.log(result);   // display result object
+
+        con.end();
+    });
+});
+
         </textarea>
         
         <button id="btn-program12" onclick="copyProgram('program12', 'btn-program12')">slip12</button>
