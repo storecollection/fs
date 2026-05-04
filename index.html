@@ -2173,7 +2173,47 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
-       
+Q2 
+    // Import EventEmitter class
+const EventEmitter = require("events");
+
+// Create object of EventEmitter
+const emitter = new EventEmitter();
+
+// Callback functions
+function onStart() {
+    console.log("Application Started 🚀");
+}
+
+function onData() {
+    console.log("Data Received 📥");
+}
+
+function onStop() {
+    console.log("Application Stopped 🛑");
+}
+
+// Register events with callbacks
+emitter.on("start", onStart);
+emitter.on("data", onData);
+emitter.on("stop", onStop);
+
+// Main loop (simulating event listening)
+console.log("Listening for events...");
+
+setInterval(() => {
+
+    // Simulate random events
+    const events = ["start", "data", "stop"];
+    const randomEvent = events[Math.floor(Math.random() * events.length)];
+
+    console.log("Event detected:", randomEvent);
+
+    // Emit event → triggers callback
+    emitter.emit(randomEvent);
+
+}, 2000); // runs every 2 seconds
+
     </textarea>
     
     <button id="btn-program16" onclick="copyProgram('program16', 'btn-program16')">slip16</button>
@@ -2183,7 +2223,169 @@ server.listen(3000, () => {
     <h2 class="program-title"></h2>
     
     <textarea id="program17" class="program-code">
+Q1 main.html
+        <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>M.Sc (CS) Sem-II Syllabus</title>
 
+    <!-- AngularJS + Routing -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+        .menu {
+            background: #333;
+            padding: 10px;
+        }
+        .menu a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="menu">
+    <a href="#!/">Home</a>
+    <a href="#!/os">Operating System</a>
+    <a href="#!/ai">Artificial Intelligence</a>
+    <a href="#!/dbms">DBMS</a>
+</div>
+
+<!-- View loads here -->
+<div ng-view></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
+Q1 app.js
+        var app = angular.module("myApp", ["ngRoute"]);
+
+app.config(function($routeProvider) {
+
+    $routeProvider
+    .when("/", {
+        templateUrl: "home.html"
+    })
+    .when("/os", {
+        templateUrl: "subject1.html"
+    })
+    .when("/ai", {
+        templateUrl: "subject2.html"
+    })
+    .when("/dbms", {
+        templateUrl: "subject3.html"
+    })
+    .otherwise({
+        redirectTo: "/"
+    });
+
+});
+Q1 home.html
+        <h2>Welcome to M.Sc (CS) Sem-II Syllabus</h2>
+<p>Select a subject from menu.</p>
+Q1 sub1.html
+        <h2>Operating System</h2>
+<ul>
+    <li>Process Management</li>
+    <li>Memory Management</li>
+    <li>File Systems</li>
+    <li>Deadlocks</li>
+</ul>
+Q1 sub2.html
+        <h2>Artificial Intelligence</h2>
+<ul>
+    <li>Introduction to AI</li>
+    <li>Search Techniques</li>
+    <li>Knowledge Representation</li>
+    <li>Machine Learning Basics</li>
+</ul>
+Q2 
+ <!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <title>Student Details Table</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        table {
+            width: 80%;
+            margin: 50px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid gray;
+            text-align: center;
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body ng-controller="studentController">
+
+<h2 style="text-align:center;">Student Details</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Course</th>
+    </tr>
+
+    <!-- ng-repeat -->
+    <tr ng-repeat="student in students">
+        <td>{{student.id}}</td>
+        <td>{{student.name}}</td>
+        <td>{{student.age}}</td>
+        <td>{{student.course}}</td>
+    </tr>
+</table>
+
+<script>
+    var app = angular.module("studentApp", []);
+
+    app.controller("studentController", function($scope) {
+
+        // Array storing 10 student records
+        $scope.students = [
+            {id: 1, name: "Rahul", age: 20, course: "MSc CS"},
+            {id: 2, name: "Sneha", age: 21, course: "MSc IT"},
+            {id: 3, name: "Amit", age: 22, course: "MCA"},
+            {id: 4, name: "Priya", age: 20, course: "MSc CS"},
+            {id: 5, name: "Karan", age: 23, course: "MSc IT"},
+            {id: 6, name: "Neha", age: 21, course: "MCA"},
+            {id: 7, name: "Rohit", age: 22, course: "MSc CS"},
+            {id: 8, name: "Pooja", age: 20, course: "MSc IT"},
+            {id: 9, name: "Vikas", age: 24, course: "MCA"},
+            {id: 10, name: "Anjali", age: 21, course: "MSc CS"}
+        ];
+
+    });
+</script>
+
+</body>
+</html>
+       
+        
     </textarea>
     
     <button id="btn-program17" onclick="copyProgram('program17', 'btn-program17')">slip17</button>
