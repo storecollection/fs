@@ -2641,7 +2641,151 @@ Q2
     <h2 class="program-title"></h2>
     
     <textarea id="program20" class="program-code">
-Q1 
+Q1 const mysql = require("mysql");
+
+// Step 1: Create connection (without DB)
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: ""   // your MySQL password
+});
+
+// Connect to MySQL
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // Step 2: Create Database
+    con.query("CREATE DATABASE IF NOT EXISTS StudentDB", function(err, result) {
+        if (err) throw err;
+        console.log("Database 'StudentDB' created or already exists");
+
+        // Step 3: Connect to StudentDB
+        const dbCon = mysql.createConnection({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "StudentDB"
+        });
+
+        dbCon.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected to StudentDB");
+
+            // Step 4: Create Table
+            const sql = `
+                CREATE TABLE IF NOT EXISTS Students (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(50),
+                    age INT,
+                    course VARCHAR(50)
+                )
+            `;
+
+            dbCon.query(sql, function(err, result) {
+                if (err) throw err;
+                console.log("Table 'Students' created successfully");
+
+                dbCon.end();
+            });
+        });
+    });
+
+    con.end();
+});
+Q2 
+   <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Username Validation</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        .container {
+            width: 350px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body ng-controller="myController">
+
+<div class="container">
+    <h2>User Validation</h2>
+
+    <label>Username:</label>
+    <input type="text" ng-model="username">
+
+    <label>Password:</label>
+    <input type="password" ng-model="password">
+
+    <button ng-click="validate()">Submit</button>
+
+    <p class="success">{{message}}</p>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+
+    app.controller("myController", function($scope) {
+
+        $scope.validate = function() {
+
+            // Username validation
+            if (!$scope.username || $scope.username.trim() === "") {
+                alert("Enter username");
+                $scope.message = "";
+                return;
+            }
+
+            if ($scope.username.length < 3) {
+                alert("Username is too short");
+                $scope.message = "";
+                return;
+            }
+
+            // Password validation
+            if (!$scope.password || $scope.password.length < 8) {
+                alert("Password must be minimum 8 characters");
+                $scope.message = "";
+                return;
+            }
+
+            // Valid case
+            $scope.message = "Valid username ✅";
+        };
+
+    });
+</script>
+
+</body>
+</html>
+     
     </textarea>
     
     <button id="btn-program20" onclick="copyProgram('program20', 'btn-program20')">slip20</button>
@@ -2650,7 +2794,95 @@ Q1
     <h2 class="program-title"></h2>
     
     <textarea id="program19" class="program-code">
+Q1
+        const mysql = require("mysql");
 
+// Step 1: Connect to MySQL (no database selected)
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: ""   // your MySQL password
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // Step 2: Create Database
+    con.query("CREATE DATABASE IF NOT EXISTS MovieDB", function(err, result) {
+        if (err) throw err;
+        console.log("Database 'MovieDB' created or already exists");
+
+        // Step 3: Connect to MovieDB
+        const dbCon = mysql.createConnection({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "MovieDB"
+        });
+
+        dbCon.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected to MovieDB");
+
+            // Step 4: Create Table
+            const sql = `
+                CREATE TABLE IF NOT EXISTS Movies (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    title VARCHAR(100),
+                    genre VARCHAR(50),
+                    release_year INT,
+                    rating FLOAT
+                )
+            `;
+
+            dbCon.query(sql, function(err, result) {
+                if (err) throw err;
+                console.log("Table 'Movies' created successfully");
+
+                dbCon.end();
+            });
+        });
+    });
+
+    con.end();
+});
+Q2 
+   const express = require("express");
+const path = require("path");
+
+const app = express();
+const PORT = 3000;
+
+// Home route
+app.get("/", (req, res) => {
+    res.send(`
+        <h2>File Download Example</h2>
+        <a href="/download">Download File</a>
+    `);
+});
+
+// Download route
+app.get("/download", (req, res) => {
+
+    // File path (make sure file exists)
+    const filePath = path.join(__dirname, "sample.txt");
+
+    // Send file as attachment
+    res.download(filePath, "downloadedFile.txt", (err) => {
+        if (err) {
+            console.log("Error:", err);
+            res.send("Error downloading file");
+        }
+    });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+     
+        
     </textarea>
     
     <button id="btn-program19" onclick="copyProgram('program19', 'btn-program19')">slip21</button>
@@ -2659,7 +2891,138 @@ Q1
     <h2 class="program-title"></h2>
     
     <textarea id="program19" class="program-code">
+Q1 
+   const http = require("http");
+const querystring = require("querystring");
 
+const server = http.createServer((req, res) => {
+
+    // Show Form
+    if (req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "text/html" });
+
+        res.write(`
+            <h2>Employee Registration</h2>
+            <form method="POST">
+                Name:<br>
+                <input type="text" name="name"><br><br>
+
+                Email:<br>
+                <input type="text" name="email"><br><br>
+
+                Mobile:<br>
+                <input type="text" name="mobile"><br><br>
+
+                Salary:<br>
+                <input type="text" name="salary"><br><br>
+
+                <button type="submit">Register</button>
+            </form>
+        `);
+
+        res.end();
+    }
+
+    // Handle Form Submission
+    else if (req.method === "POST") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const data = querystring.parse(body);
+
+            const name = data.name;
+            const email = data.email;
+            const mobile = data.mobile;
+            const salary = data.salary;
+
+            // Regex patterns
+            const namePattern = /^[A-Za-z ]+$/;
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            const mobilePattern = /^[0-9]{10}$/;
+            const salaryPattern = /^[0-9]+$/;
+
+            let error = "";
+
+            // Validation
+            if (!namePattern.test(name)) {
+                error += "Invalid Name<br>";
+            }
+
+            if (!emailPattern.test(email)) {
+                error += "Invalid Email<br>";
+            }
+
+            if (!mobilePattern.test(mobile)) {
+                error += "Invalid Mobile Number<br>";
+            }
+
+            if (!salaryPattern.test(salary) || salary <= 0) {
+                error += "Invalid Salary<br>";
+            }
+
+            res.writeHead(200, { "Content-Type": "text/html" });
+
+            if (error !== "") {
+                res.write("<h3 style='color:red'>" + error + "</h3>");
+                res.write("<a href='/'>Go Back</a>");
+            } else {
+                res.write("<h2>Registration Successful ✅</h2>");
+            }
+
+            res.end();
+        });
+    }
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2
+ // Import EventEmitter module
+const EventEmitter = require("events");
+
+// Create event emitter object
+const emitter = new EventEmitter();
+
+// Callback functions
+function loginHandler() {
+    console.log("User Logged In ✅");
+}
+
+function logoutHandler() {
+    console.log("User Logged Out 🚪");
+}
+
+function errorHandler() {
+    console.log("Error Occurred ❌");
+}
+
+// Register events with callbacks
+emitter.on("login", loginHandler);
+emitter.on("logout", logoutHandler);
+emitter.on("error", errorHandler);
+
+// Main loop (event listener simulation)
+console.log("Application started... Listening for events...");
+
+setInterval(() => {
+
+    // Simulate event detection
+    const events = ["login", "logout", "error"];
+    const randomEvent = events[Math.floor(Math.random() * events.length)];
+
+    console.log("Event detected:", randomEvent);
+
+    // Emit event → triggers corresponding callback
+    emitter.emit(randomEvent);
+
+}, 3000); // runs every 3 seconds
+       
     </textarea>
     
     <button id="btn-program19" onclick="copyProgram('program19', 'btn-program19')">slip22</button>
@@ -2668,7 +3031,72 @@ Q1
     <h2 class="program-title"></h2>
     
     <textarea id="program19" class="program-code">
+Q1 index.html
+   <!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+</head>
+<body>
+    <h1>Welcome to Node.js File Server</h1>
+    <p>This page is served from a file using Node.js.</p>
+</body>
+</html>
+Q1 app.js
+        const http = require("http");
+const fs = require("fs");
 
+// Create server
+const server = http.createServer((req, res) => {
+
+    // Read HTML file
+    fs.readFile("index.html", (err, data) => {
+
+        if (err) {
+            // Handle error
+            res.writeHead(404, { "Content-Type": "text/html" });
+            res.write("<h2>404 - File Not Found</h2>");
+            res.end();
+        } else {
+            // Serve file
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.write(data);
+            res.end();
+        }
+    });
+
+});
+
+// Start server
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 module.js
+        // modules.js
+
+// Function to return current date and time
+exports.getDateTime = function () {
+    return new Date().toString();
+};
+Q2 app.js
+        const http = require("http");
+const myModule = require("./modules"); // import custom module
+
+// Create server
+http.createServer(function (req, res) {
+
+    res.writeHead(200, { "Content-Type": "text/html" });
+
+    res.write("<h2>Custom Node.js Module Example</h2>");
+    res.write("<p>Current Date & Time: " + myModule.getDateTime() + "</p>");
+
+    res.end();
+
+}).listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+
+        
     </textarea>
     
     <button id="btn-program19" onclick="copyProgram('program19', 'btn-program19')">slip23</button>
@@ -2677,7 +3105,193 @@ Q1
     <h2 class="program-title"></h2>
     
     <textarea id="program19" class="program-code">
+Q1 courses.json
+        [
+    {
+        "title": "JavaScript Basics",
+        "content": "Introduction, Variables, Functions"
+    },
+    {
+        "title": "Node.js",
+        "content": "Modules, HTTP, File System"
+    }
+]
+Q1 app.js
+        const http = require("http");
+const fs = require("fs");
+const querystring = require("querystring");
 
+// Read courses
+function getCourses() {
+    return JSON.parse(fs.readFileSync("courses.json"));
+}
+
+// Save courses
+function saveCourses(data) {
+    fs.writeFileSync("courses.json", JSON.stringify(data, null, 2));
+}
+
+const server = http.createServer((req, res) => {
+
+    // Home Page
+    if (req.method === "GET") {
+
+        let courses = getCourses();
+
+        let courseList = "<h2>eLearning System</h2>";
+
+        courses.forEach((c, index) => {
+            courseList += `
+                <h3>${c.title}</h3>
+                <p>${c.content}</p>
+                <hr>
+            `;
+        });
+
+        res.writeHead(200, { "Content-Type": "text/html" });
+
+        res.write(`
+            ${courseList}
+
+            <h2>Add New Course</h2>
+            <form method="POST">
+                <input type="text" name="title" placeholder="Course Title"><br><br>
+                <textarea name="content" placeholder="Course Content"></textarea><br><br>
+                <button type="submit">Add Course</button>
+            </form>
+        `);
+
+        res.end();
+    }
+
+    // Handle Form Submission
+    else if (req.method === "POST") {
+
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const data = querystring.parse(body);
+
+            let courses = getCourses();
+
+            // Add new course
+            courses.push({
+                title: data.title,
+                content: data.content
+            });
+
+            saveCourses(courses);
+
+            // Redirect to home
+            res.writeHead(302, { "Location": "/" });
+            res.end();
+        });
+    }
+
+});
+
+// Start server
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 
+ <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Username Validation SPA</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        .container {
+            width: 350px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+        }
+        .msg {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+
+<body ng-controller="myController">
+
+<div class="container">
+    <h2>User Validation</h2>
+
+    <label>Username:</label>
+    <input type="text" ng-model="username">
+
+    <label>Password:</label>
+    <input type="password" ng-model="password">
+
+    <button ng-click="validate()">Submit</button>
+
+    <p class="msg">{{message}}</p>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+
+    app.controller("myController", function($scope) {
+
+        $scope.validate = function() {
+
+            // Check blank username
+            if (!$scope.username || $scope.username.trim() === "") {
+                alert("Enter username");
+                $scope.message = "";
+                return;
+            }
+
+            // Check username length
+            if ($scope.username.length < 3) {
+                alert("Username is too short");
+                $scope.message = "";
+                return;
+            }
+
+            // Password validation
+            if (!$scope.password || $scope.password.length < 8) {
+                alert("Password must be minimum 8 characters");
+                $scope.message = "";
+                return;
+            }
+
+            // Valid case
+            $scope.message = "Valid username ✅";
+        };
+
+    });
+</script>
+
+</body>
+</html>
+         
     </textarea>
     
     <button id="btn-program19" onclick="copyProgram('program19', 'btn-program19')">slip24</button>
@@ -2686,7 +3300,125 @@ Q1
     <h2 class="program-title"></h2>
     
     <textarea id="program19" class="program-code">
+Q1 
+   <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Show Page Location</title>
 
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 80px;
+        }
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body ng-controller="myController">
+
+<div class="box">
+    <h2>Current Page Location</h2>
+
+    <p><b>Full URL:</b> {{url}}</p>
+    <p><b>Protocol:</b> {{protocol}}</p>
+    <p><b>Host:</b> {{host}}</p>
+    <p><b>Port:</b> {{port}}</p>
+    <p><b>Path:</b> {{path}}</p>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+
+    app.controller("myController", function($scope, $location) {
+
+        // Get full URL
+        $scope.url = $location.absUrl();
+
+        // Get parts of URL
+        $scope.protocol = $location.protocol();
+        $scope.host = $location.host();
+        $scope.port = $location.port();
+        $scope.path = $location.path();
+
+    });
+</script>
+
+</body>
+</html>
+Q2 main.js
+        // Import EventEmitter class
+const EventEmitter = require("events");
+
+// Create emitter object
+const emitter = new EventEmitter();
+
+// -----------------------------
+// Callback Functions
+// -----------------------------
+
+// Event: userLogin
+function userLoginHandler(username) {
+    console.log(`User ${username} logged in ✅`);
+}
+
+// Event: dataReceived
+function dataReceivedHandler(data) {
+    console.log(`Data received: ${data} 📥`);
+}
+
+// Event: error
+function errorHandler() {
+    console.log("An error occurred ❌");
+}
+
+// -----------------------------
+// Register Events
+// -----------------------------
+emitter.on("userLogin", userLoginHandler);
+emitter.on("dataReceived", dataReceivedHandler);
+emitter.on("error", errorHandler);
+
+// -----------------------------
+// Main Loop (Event Listener)
+// -----------------------------
+console.log("Event-driven application started...");
+console.log("Listening for events...\n");
+
+setInterval(() => {
+
+    // Simulate events
+    const events = ["userLogin", "dataReceived", "error"];
+    const randomEvent = events[Math.floor(Math.random() * events.length)];
+
+    console.log("Event detected:", randomEvent);
+
+    // Emit event with data
+    if (randomEvent === "userLogin") {
+        emitter.emit("userLogin", "Rahul");
+    } 
+    else if (randomEvent === "dataReceived") {
+        emitter.emit("dataReceived", "Sample Data");
+    } 
+    else {
+        emitter.emit("error");
+    }
+
+    console.log("---------------------------");
+
+}, 3000); // runs every 3 seconds
+
+        
     </textarea>
     
     <button id="btn-program19" onclick="copyProgram('program19', 'btn-program19')">slip25</button>
