@@ -89,6 +89,194 @@
         
         <textarea id="program1" class="program-code">
        Q1 
+        <!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .container {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: darkblue;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            // Regular Expression for Email
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            // Regular Expression for Password
+            // At least 6 characters, 1 uppercase, 1 lowercase, 1 digit
+            let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+            let errorMsg = "";
+
+            if (!email.match(emailPattern)) {
+                errorMsg += "Invalid Email format<br>";
+            }
+
+            if (!password.match(passwordPattern)) {
+                errorMsg += "Password must be at least 6 characters, include uppercase, lowercase, and number<br>";
+            }
+
+            if (errorMsg !== "") {
+                document.getElementById("error").innerHTML = errorMsg;
+                return false;
+            }
+
+            alert("Login Successful!");
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Login</h2>
+
+    <form onsubmit="return validateForm()">
+        <label>Email:</label>
+        <input type="text" id="email" placeholder="Enter Email">
+
+        <label>Password:</label>
+        <input type="password" id="password" placeholder="Enter Password">
+
+        <div id="error" class="error"></div>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+</body>
+</html>
+Q2 <!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration Form</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+        .container {
+            width: 350px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            let fname = document.getElementById("fname").value;
+            let lname = document.getElementById("lname").value;
+            let age = document.getElementById("age").value;
+
+            // Regex: Only alphabets
+            let namePattern = /^[A-Za-z]+$/;
+
+            let errorMsg = "";
+
+            // First Name validation
+            if (!fname.match(namePattern)) {
+                errorMsg += "First name should contain only alphabets<br>";
+            }
+
+            // Last Name validation
+            if (!lname.match(namePattern)) {
+                errorMsg += "Last name should contain only alphabets<br>";
+            }
+
+            // Age validation (18–50)
+            if (age < 18 || age > 50 || age === "") {
+                errorMsg += "Age must be between 18 and 50<br>";
+            }
+
+            if (errorMsg !== "") {
+                document.getElementById("error").innerHTML = errorMsg;
+                return false;
+            }
+
+            alert("Registration Successful!");
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Student Registration</h2>
+
+    <form onsubmit="return validateForm()">
+        <label>First Name:</label>
+        <input type="text" id="fname" placeholder="Enter First Name">
+
+        <label>Last Name:</label>
+        <input type="text" id="lname" placeholder="Enter Last Name">
+
+        <label>Age:</label>
+        <input type="number" id="age" placeholder="Enter Age">
+
+        <div id="error" class="error"></div>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+</body>
+</html>
+    
 
         </textarea>
         <button id="btn-program1" onclick="copyProgram('program1', 'btn-program1')">slip1</button>
@@ -99,18 +287,214 @@
         <h2 class="program-title"></h2>
         
         <textarea id="program2" class="program-code">
+Q1 
+    // reverse.js
 
+const input = "Full Stack!";
+
+// Function to reverse string
+function reverseString(str) {
+    return str.split("").reverse().join("");
+}
+
+const output = reverseString(input);
+
+console.log("Original String:", input);
+console.log("Reversed String:", output);
+Q2 slip2.html
+      <!DOCTYPE html>
+<html>
+<head>
+    <title>File Append</title>
+</head>
+<body>
+
+<h2>Append File Content</h2>
+
+<form method="POST">
+    <label>First File Name:</label><br>
+    <input type="text" name="file1" placeholder="file1.txt"><br><br>
+
+    <label>Second File Name:</label><br>
+    <input type="text" name="file2" placeholder="file2.txt"><br><br>
+
+    <button type="submit">Append</button>
+</form>
+
+</body>
+</html>
+Q2 .js file
+  const http = require("http");
+const fs = require("fs");
+const querystring = require("querystring");
+
+const server = http.createServer((req, res) => {
+
+    if (req.method === "GET") {
+        // Serve HTML form
+        fs.readFile("index.html", (err, data) => {
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.write(data);
+            res.end();
+        });
+    }
+
+    else if (req.method === "POST") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const parsed = querystring.parse(body);
+
+            const file1 = parsed.file1;
+            const file2 = parsed.file2;
+
+            // Read first file
+            fs.readFile(file1, "utf8", (err, data) => {
+                if (err) {
+                    res.end("Error reading first file");
+                    return;
+                }
+
+                // Append to second file
+                fs.appendFile(file2, data, (err) => {
+                    if (err) {
+                        res.end("Error appending to second file");
+                        return;
+                    }
+
+                    res.end("Content appended successfully!");
+                });
+            });
+        });
+    }
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+          
         </textarea>
         
         <button id="btn-program2" onclick="copyProgram('program2', 'btn-program2')">slip2</button>
     </div>
     
 
-
     <div class="program-section">
         <h2 class="program-title"></h2>
         <textarea id="program3" class="program-code">
-    
+Q1 node.js
+     const http = require("http");
+const fs = require("fs");
+const querystring = require("querystring");
+
+// Dummy user (for demo)
+const validUser = {
+    email: "admin@gmail.com",
+    password: "Admin123"
+};
+
+const server = http.createServer((req, res) => {
+
+    if (req.method === "GET") {
+        // Load login page
+        fs.readFile("login.html", (err, data) => {
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.write(data);
+            res.end();
+        });
+    }
+
+    else if (req.method === "POST") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            const parsedData = querystring.parse(body);
+
+            const email = parsedData.email;
+            const password = parsedData.password;
+
+            // Validate login
+            if (email === validUser.email && password === validUser.password) {
+                res.writeHead(200, { "Content-Type": "text/html" });
+                res.end("<h2>Login Successful ✅</h2>");
+            } else {
+                res.writeHead(200, { "Content-Type": "text/html" });
+                res.end("<h2>Invalid Email or Password ❌</h2>");
+            }
+        });
+    }
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q1 .html file
+     <!DOCTYPE html>
+<html>
+<head>
+    <title>User Login</title>
+</head>
+<body>
+
+<h2>User Login</h2>
+
+<form method="POST">
+    <label>Email:</label><br>
+    <input type="text" name="email" placeholder="Enter Email"><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" placeholder="Enter Password"><br><br>
+
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
+Q2 teacher.js
+      const mysql = require("mysql");
+
+// Create connection
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",       // your MySQL password
+    database: "your_db" // your database name
+});
+
+// Connect to database
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected to MySQL");
+
+    // SQL Query
+    const sql = "SELECT * FROM Teacher WHERE salary > 20000";
+
+    con.query(sql, function(err, result) {
+        if (err) throw err;
+
+        console.log("Teachers with salary > 20000:");
+        console.log(result);
+
+        con.end();
+    });
+});
+Q2 sql table
+            CREATE TABLE Teacher (
+    id INT,
+    name VARCHAR(50),
+    salary INT
+);
+
+            
         </textarea>
         
         <button id="btn-program3" onclick="copyProgram('program3', 'btn-program3')">slip3</button>
