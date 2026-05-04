@@ -507,7 +507,250 @@ Q2 sql table
         <h2 class="program-title"></h2>
         
         <textarea id="program4" class="program-code">
-  
+Q1 app.js
+            const http = require("http");
+const fs = require("fs");
+const querystring = require("querystring");
+
+// Dummy user
+const user = {
+    email: "student@gmail.com",
+    password: "1234"
+};
+
+// Load courses
+const courses = JSON.parse(fs.readFileSync("courses.json"));
+
+const server = http.createServer((req, res) => {
+
+    if (req.method === "GET" && req.url === "/") {
+        fs.readFile("login.html", (err, data) => {
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(data);
+        });
+    }
+
+    else if (req.method === "POST" && req.url === "/login") {
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk;
+        });
+
+        req.on("end", () => {
+            const data = querystring.parse(body);
+
+            if (data.email === user.email && data.password === user.password) {
+                res.writeHead(302, { "Location": "/dashboard" });
+                res.end();
+            } else {
+                res.end("Invalid Login ❌");
+            }
+        });
+    }
+
+    else if (req.method === "GET" && req.url === "/dashboard") {
+        let courseList = "<h2>Available Courses</h2>";
+
+        courses.forEach((c, index) => {
+            courseList += `<p>
+                <a href="/course?id=${index}">${c.title}</a>
+            </p>`;
+        });
+
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(courseList);
+    }
+
+    else if (req.method === "GET" && req.url.startsWith("/course")) {
+        const id = req.url.split("=")[1];
+        const course = courses[id];
+
+        let content = `<h2>${course.title}</h2>`;
+
+        course.lessons.forEach(lesson => {
+            content += `<p>${lesson}</p>`;
+        });
+
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(content);
+    }
+
+    else {
+        res.writeHead(404);
+        res.end("Page Not Found");
+    }
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q1 login.html
+            <!DOCTYPE html>
+<html>
+<head>
+    <title>eLearning Login</title>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<form method="POST" action="/login">
+    <input type="text" name="email" placeholder="Email"><br><br>
+    <input type="password" name="password" placeholder="Password"><br><br>
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
+Q1 courses.json
+            [
+    {
+        "title": "Web Development",
+        "lessons": [
+            "HTML Basics",
+            "CSS Styling",
+            "JavaScript Introduction"
+        ]
+    },
+    {
+        "title": "Node.js",
+        "lessons": [
+            "Introduction to Node",
+            "Modules",
+            "File System"
+        ]
+    }
+]
+Q2 angularjs
+            <!DOCTYPE html>
+<html ng-app="studentApp">
+<head>
+    <title>Student Registration</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        .container {
+            width: 350px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+        }
+        .error {
+            color: red;
+        }
+        .greeting {
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body ng-controller="studentController">
+
+<div class="container">
+
+    <!-- Greeting using ng-show -->
+    <p class="greeting" ng-show="hour < 12">Good Morning 🌅</p>
+    <p class="greeting" ng-show="hour >= 12 && hour < 17">Good Afternoon ☀️</p>
+    <p class="greeting" ng-show="hour >= 17">Good Evening 🌙</p>
+
+    <h2>Student Registration</h2>
+
+    <form name="studentForm" ng-submit="submitForm()">
+
+        <label>First Name:</label>
+        <input type="text" ng-model="student.fname" required>
+        <span class="error" ng-show="!nameValid(student.fname)">
+            Only alphabets allowed
+        </span>
+
+        <label>Last Name:</label>
+        <input type="text" ng-model="student.lname" required>
+        <span class="error" ng-show="!nameValid(student.lname)">
+            Only alphabets allowed
+        </span>
+
+        <label>Age:</label>
+        <input type="number" ng-model="student.age" required>
+        <span class="error" ng-show="!ageValid(student.age)">
+            Age must be between 18 and 50
+        </span>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p style="color:green;">{{message}}</p>
+
+</div>
+
+<script>
+    var app = angular.module("studentApp", []);
+
+    app.controller("studentController", function($scope, $http) {
+
+        // Current time
+        $scope.hour = new Date().getHours();
+
+        // Name validation (only alphabets)
+        $scope.nameValid = function(name) {
+            if (!name) return true;
+            let pattern = /^[A-Za-z]+$/;
+            return pattern.test(name);
+        };
+
+        // Age validation (18–50)
+        $scope.ageValid = function(age) {
+            if (!age) return true;
+            return age >= 18 && age <= 50;
+        };
+
+        // Submit form (AJAX)
+        $scope.submitForm = function() {
+
+            if (!$scope.nameValid($scope.student.fname) ||
+                !$scope.nameValid($scope.student.lname) ||
+                !$scope.ageValid($scope.student.age)) {
+
+                $scope.message = "Please fix validation errors!";
+                return;
+            }
+
+            // AJAX request (dummy API)
+            $http.post("https://jsonplaceholder.typicode.com/posts", $scope.student)
+                .then(function(response) {
+                    $scope.message = "Registration Successful ✅";
+                }, function(error) {
+                    $scope.message = "Error occurred ❌";
+                });
+        };
+
+    });
+</script>
+
+</body>
+</html>
+
         </textarea>
         
         <button id="btn-program4" onclick="copyProgram('program4', 'btn-program4')">slip4</button>
@@ -518,7 +761,138 @@ Q2 sql table
         <h2 class="program-title"></h2>
         
         <textarea id="program5" class="program-code">
-  
+ Q1 app.js
+            const http = require("http");
+
+const server = http.createServer((req, res) => {
+
+    // Serve HTML form
+    if (req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "text/html" });
+
+        res.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>File Upload</title>
+            </head>
+            <body>
+
+                <h2>Upload File</h2>
+
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="file"><br><br>
+                    <button type="submit">Upload</button>
+                </form>
+
+            </body>
+            </html>
+        `);
+
+        res.end();
+    }
+
+    // Handle upload request (basic)
+    else if (req.method === "POST" && req.url === "/upload") {
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end("<h3>File upload request received (processing not implemented)</h3>");
+    }
+
+});
+
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+Q2 
+ <!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Username Validation SPA</title>
+
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+        .container {
+            width: 350px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+        }
+        .message {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body ng-controller="myController">
+
+<div class="container">
+    <h2>User Validation</h2>
+
+    <label>Username:</label>
+    <input type="text" ng-model="username">
+
+    <label>Password:</label>
+    <input type="password" ng-model="password">
+
+    <button ng-click="validate()">Validate</button>
+
+    <p class="message">{{message}}</p>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+
+    app.controller("myController", function($scope) {
+
+        $scope.validate = function() {
+
+            if (!$scope.username || $scope.username.trim() === "") {
+                alert("Enter username");
+                $scope.message = "";
+                return;
+            }
+
+            if ($scope.username.length < 3) {
+                alert("Username is too short");
+                $scope.message = "";
+                return;
+            }
+
+            if (!$scope.password || $scope.password.length < 8) {
+                alert("Password must be minimum 8 characters");
+                $scope.message = "";
+                return;
+            }
+
+            $scope.message = "Valid username ✅";
+        };
+
+    });
+</script>
+
+</body>
+</html>
+           
         </textarea>
         
         <button id="btn-program5" onclick="copyProgram('program5', 'btn-program5')">slip5</button>
@@ -528,7 +902,7 @@ Q2 sql table
         <h2 class="program-title"></h2>
         
         <textarea id="program6" class="program-code">
-      
+Q1       
         </textarea>
         
         <button id="btn-program6" onclick="copyProgram('program6', 'btn-program6')">slip6</button>
