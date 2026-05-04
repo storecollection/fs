@@ -2079,8 +2079,8 @@ Q2 <!DOCTYPE html>
 
 <div class="program-section">
     <h2 class="program-title"></h2>
-    
-    <textarea id="program16" class="program-code">
+  
+<textarea id="program16" class="program-code">
 Q1 recipe.json
         [
     {
@@ -2135,10 +2135,8 @@ const server = http.createServer((req, res) => {
                 <button type="submit">Add Recipe</button>
             </form>
         `);
-
         res.end();
     }
-
     // Handle form submission
     else if (req.method === "POST") {
 
@@ -2202,19 +2200,14 @@ emitter.on("stop", onStop);
 console.log("Listening for events...");
 
 setInterval(() => {
-
     // Simulate random events
     const events = ["start", "data", "stop"];
     const randomEvent = events[Math.floor(Math.random() * events.length)];
-
     console.log("Event detected:", randomEvent);
-
     // Emit event → triggers callback
     emitter.emit(randomEvent);
-
 }, 2000); // runs every 2 seconds
-
-    </textarea>
+</textarea>
     
     <button id="btn-program16" onclick="copyProgram('program16', 'btn-program16')">slip16</button>
 </div>    
